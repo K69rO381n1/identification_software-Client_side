@@ -140,4 +140,6 @@ public interface TransmissionProtocol {
 
     boolean addImage(String username, String password, String imagePath);
 
+    void close() throws IOException;
+
 }

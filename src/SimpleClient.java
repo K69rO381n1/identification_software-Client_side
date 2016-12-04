@@ -9,7 +9,7 @@ public class SimpleClient implements TransmissionProtocol {
 
     private static final int MAX_TRANSFER_AT_ONCE = 2048;
 
-    private static final String CAPTCHA_IMAGE_PATH = "/temp/captcha";
+    private static final String CAPTCHA_IMAGE_PATH = "./temp/captcha.png";
 
     private static final byte FALSE = 0;
 
