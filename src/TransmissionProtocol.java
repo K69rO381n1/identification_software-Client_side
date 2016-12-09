@@ -94,6 +94,12 @@ public interface TransmissionProtocol {
     byte ADD_IMAGE_RESPONSE = 6;
     byte ADD_IMAGE_REQUEST = 6;
 
+    byte ADD_NEW_USER_REQUEST = 7;
+    byte ADD_NEW_USER_RESPONSE = 7;
+
+    byte ADMIN = 0;
+    byte USER = 1;
+
 
     static byte[] wrapData(byte flag, byte... data) {
         return Utils.concatenate(intToByteArray(data.length), new byte[]{flag}, data);
@@ -139,6 +145,9 @@ public interface TransmissionProtocol {
     boolean changePassword(String username, String oldPassword, String newPassword);
 
     boolean addImage(String username, String password, String imagePath);
+
+    boolean addUser(String adminUsername, String adminPassword,
+                    String firstName, String lastName, String username, String password, int id, byte permission);
 
     void close() throws IOException;
 

@@ -53,6 +53,7 @@ public class SimpleClient implements TransmissionProtocol {
             out.write(TransmissionProtocol.wrapData(TransmissionProtocol.CAPTCHA_REQUEST));
 
             byte[] data = readAndUnwrapPacket();
+            System.out.println(Arrays.toString(data));
             if (data[0] == TransmissionProtocol.CAPTCHA_RESPONSE) {
                 TransmissionProtocol.bytes2image(Arrays.copyOfRange(data, 1, data.length), CAPTCHA_IMAGE_PATH);
 
@@ -163,6 +164,31 @@ public class SimpleClient implements TransmissionProtocol {
                 return data[1] != FALSE;
 
             } else throw new IOException("Data not in right format");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean addUser(String adminUsername, String adminPassword,
+                           String firstName, String lastName, String username, String password, int id, byte permission) {
+        try {
+            out.write(
+                    TransmissionProtocol.wrapData(
+                            TransmissionProtocol.ADD_NEW_USER_REQUEST,
+                            Utils.concatenate(
+                                    TransmissionProtocol.fregmentStrings(
+                                            adminUsername, adminPassword, firstName, lastName, username, password),
+                                    TransmissionProtocol.intToByteArray(id),
+                                    new byte[] {permission})));
+
+            byte[] data = readAndUnwrapPacket();
+            if (data[0] == TransmissionProtocol.ADD_NEW_USER_RESPONSE) {
+                return data[1] != FALSE;
+
+            } else throw new IOException("Data not in right format, data= " + Arrays.toString(data));
 
         } catch (IOException e) {
             e.printStackTrace();

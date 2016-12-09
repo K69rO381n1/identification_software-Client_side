@@ -1,42 +1,73 @@
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import java.io.IOException;
 
+import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Created by kfir on 08/12/16.
+ */
 class SimpleClientTest {
-    @org.junit.jupiter.api.Test
-    void getCaptcha() throws IOException {
-        TransmissionProtocol a = new SimpleClient("127.0.0.1", 9999);
-        a.getCaptcha();
-        a.close();
+
+    private SimpleClient simpleClient;
+
+    @BeforeEach
+    void setUp() throws IOException {
+        this.simpleClient = new SimpleClient("127.0.0.1", 9999);
     }
 
-    @org.junit.jupiter.api.Test
+    @AfterEach
+    void tearDown() throws IOException {
+        this.simpleClient.close();
+    }
+
+    @Test
+    void getCaptcha() {
+        // See the image captcha.png in folder temp
+        this.simpleClient.getCaptcha();
+    }
+
+    @Test
     void checkCaptchaTextGuess() {
-
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void checkCradentials() {
-
+        System.out.println();
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void checkFaceImage() {
 
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void getStatistics() {
 
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void changePassword() {
-
+        System.out.println(
+                this.simpleClient.changePassword(
+                        "testUsername", "testPassword", "testPassword!")
+        );
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void addImage() {
 
     }
 
+    @Test
+    void addUser() {
+        // Print True if the process succeed
+        System.out.println(
+                this.simpleClient.addUser("admin", "password",
+                        "testFirstName", "testLastName", "testUsername", "testPassword", 1,
+                        TransmissionProtocol.USER)
+        );
+    }
 }
